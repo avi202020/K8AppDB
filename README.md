@@ -23,7 +23,9 @@ Verify the persistent volume claim.
 
 kubectl describe pvc <PersistentVolumeClaim> i.e kubectl describe pvc mssql-data
 
-Verify the persistent volume.  kubectl describe pv
+Verify the persistent volume.  
+
+kubectl describe pv
 
 kubectl returns metadata about the persistent volume that was automatically created and bound to the persistent volume claim.
 SQL Server deployment
@@ -31,7 +33,9 @@ SQL Server deployment
 Create a manifest to describe the container based on the SQL Server mssql-server-linux Docker image. The manifest references the mssql-server persistent volume claim, and the mssql secret that you already applied to the Kubernetes cluster. The manifest also describes a service. This service is a load balancer. The load balancer guarantees that the IP address persists after SQL Server instance is recovered.
 	   
         Create a manifest (a YAML file) to describe the deployment. The following example describes a deployment, including a container based on the SQL Server container image.  Copy the preceding code into a new file, named sqldeployment.yaml.   When Kubernetes deploys the container, it refers to the secret named mssql to get the value for the password. 
-	            kubectl apply -f sqldeployment.yaml file
+
+
+kubectl apply -f sqldeployment.yaml file
 	
 Verify the services are running. Run the following command:  kubectl get services  This command returns services that are running, as well as the internal and external IP addresses for the services. Note the external IP address for the mssql-deployment service. Use this IP address to connect to SQL Server. ￼ For more information about the status of the objects in the Kubernetes cluster, run: az aks browse --resource-group <MyResourceGroup> --name <MyKubernetesClustername>
 
