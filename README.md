@@ -2,24 +2,30 @@ Deploy a SQL Server container in Kubernetes
 		
 Prerequisites
 
-		 Azure CLI to manage the cluster.
+Azure CLI to manage the cluster.
 		
-		Kubernetes cluster has been created
+Kubernetes cluster has been created
 		
-		The steps use kubectl to manage the cluster. 	      
+he steps use kubectl to manage the cluster	      
 
-  kubectl create secret generic mssql --from-literal=SA_PASSWORD="MyC0m9l&xP@ssw0rd"
+Create DataBase Password
 
+kubectl create secret generic mssql --from-literal=SA_PASSWORD="MyC0m9l&xP@ssw0rd"
 
 Replace MyC0m9l&xP@ssw0rd with a complex password.
-To create a secret in Kubernetes named mssql that holds the value MyC0m9l&xP@ssw0rd for the SA_PASSWORD, run the command.
+
 Create storage
     Configure a persistent volume and persistent volume claim in the Kubernetes cluster. Complete the following steps:
-       Create a manifest to define the storage class and the persistent volume claim. The manifest specifies the storage provisioner, parameters, and reclaim policy. The Kubernetes cluster uses this manifest to create the persistent storage. The following yaml example defines a storage class and persistent volume claim. The storage class provisioner is azure-disk, because this Kubernetes cluster is in Azure. The storage account type is Standard_LRS. The persistent volume claim is named mssql-data. The persistent volume claim metadata includes an annotation connecting it back to the storage class.   kubectl apply -f pvc.yaml
- The persistent volume is automatically created as an Azure storage account, and bound to the persistent volume claim. ￼ Verify the persistent volume claim.  kubectl describe pvc <PersistentVolumeClaim> i.e kubectl describe pvc mssql-data
-  The returned metadata includes a value called Volume. This value maps to the name of the blob. ￼ The value for volume matches part of the name of the blob in the following image from the Azure portal: ￼ 
-	    Verify the persistent volume.  kubectl describe pv
- kubectl returns metadata about the persistent volume that was automatically created and bound to the persistent volume claim. 
+kubectl apply -f pvc.yaml
+
+
+Verify the persistent volume claim.
+
+kubectl describe pvc <PersistentVolumeClaim> i.e kubectl describe pvc mssql-data
+
+Verify the persistent volume.  kubectl describe pv
+
+kubectl returns metadata about the persistent volume that was automatically created and bound to the persistent volume claim.
 SQL Server deployment
 
 Create a manifest to describe the container based on the SQL Server mssql-server-linux Docker image. The manifest references the mssql-server persistent volume claim, and the mssql secret that you already applied to the Kubernetes cluster. The manifest also describes a service. This service is a load balancer. The load balancer guarantees that the IP address persists after SQL Server instance is recovered.
