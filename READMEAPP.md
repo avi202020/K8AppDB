@@ -63,7 +63,7 @@ helm install \
 For more information on cert-manager configuration, see the cert-manager project.
 Create a CA cluster issuer To create the issuer, use the kubectl apply -f cluster-issuer.yaml command.
 
-$ kubectl apply -f cluster-issuer.yaml
+kubectl apply -f cluster-issuer.yaml
 
 clusterissuer.certmanager.k8s.io/letsencrypt-staging created
 Run demo applications
