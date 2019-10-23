@@ -21,11 +21,11 @@ Replace MyC0m9l&xP@ssw0rd with a complex password.
 
 Verify the persistent volume claim.
 
-    ```kubectl describe pvc <PersistentVolumeClaim> i.e kubectl describe pvc mssql-data```
+  ```kubectl describe pvc <PersistentVolumeClaim> i.e kubectl describe pvc mssql-data```
 
 Verify the persistent volume
 
-    ```kubectl describe pv```
+  ```kubectl describe pv```
     
 kubectl returns metadata about the persistent volume that was automatically created and bound to the persistent volume claim.
 
