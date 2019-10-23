@@ -29,7 +29,7 @@ Verify the persistent volume
     
 kubectl returns metadata about the persistent volume that was automatically created and bound to the persistent volume claim.
 
-# # SQL Server deployment
+## SQL Server deployment
 
 Create a manifest to describe the container based on the SQL Server mssql-server-linux Docker image. The manifest references the mssql-server persistent volume claim, and the mssql secret that you already applied to the Kubernetes cluster. The manifest also describes a service. This service is a load balancer. The load balancer guarantees that the IP address persists after SQL Server instance is recovered.
 	   
@@ -41,7 +41,7 @@ Verify the services are running. Run the following command:kubectl get services 
 
 ```az aks browse --resource-group <MyResourceGroup> --name <MyKubernetesClustername>```
 
-# # Connect to the SQL Server instance
+## Connect to the SQL Server instance
 
 If you configured the container as described, you can connect with an application from outside the Azure virtual network. Use the sa account and the external IP address for the service. Use the password that you configured as the Kubernetes secret.
 You can use the following applications to connect to the SQL Server instance.
@@ -52,7 +52,7 @@ connect with sqlcmd, run the following command:
 		Replace the following values:
      <External IP Address> with the IP address for the mssql-deployment service  yC0m9l&xP@ssw0rd with your password
 		
-# # Verify failure and recovery
+## Verify failure and recovery
 
 To verify failure and recovery, you can delete the pod. Do the following steps:
         
