@@ -1,55 +1,56 @@
-Deploy a SQL Server container in Kubernetes
+# Deploy a SQL Server container in Kubernetes
 		
-Prerequisites
+##  Prerequisites
 
-Azure CLI to manage the cluster.
+   * Azure CLI to manage the cluster.
 		
-Kubernetes cluster has been created
+   * Kubernetes cluster has been created
 		
-he steps use kubectl to manage the cluster	      
+   * kubectl CLI to manage the cluster	      
 
-Create DataBase Password
+##  Create DataBase Password
 
 kubectl create secret generic mssql --from-literal=SA_PASSWORD="MyC0m9l&xP@ssw0rd"
 
 Replace MyC0m9l&xP@ssw0rd with a complex password.
 
-Create storage
-    Configure a persistent volume and persistent volume claim in the Kubernetes cluster. Complete the following steps:
-kubectl apply -f pvc.yaml
+##  Create storage
+  Configure a persistent volume and persistent volume claim in the Kubernetes cluster. Complete the following steps:
+  kubectl apply -f pvc.yaml
 
 
 Verify the persistent volume claim.
 
-kubectl describe pvc <PersistentVolumeClaim> i.e kubectl describe pvc mssql-data
+     kubectl describe pvc <PersistentVolumeClaim> i.e kubectl describe pvc mssql-data
 
 Verify the persistent volume.  
 
-kubectl describe pv
-
+    kubectl describe pv
 kubectl returns metadata about the persistent volume that was automatically created and bound to the persistent volume claim.
-SQL Server deployment
+
+# # SQL Server deployment
 
 Create a manifest to describe the container based on the SQL Server mssql-server-linux Docker image. The manifest references the mssql-server persistent volume claim, and the mssql secret that you already applied to the Kubernetes cluster. The manifest also describes a service. This service is a load balancer. The load balancer guarantees that the IP address persists after SQL Server instance is recovered.
 	   
-        Create a manifest (a YAML file) to describe the deployment. The following example describes a deployment, including a container based on the SQL Server container image.  Copy the preceding code into a new file, named sqldeployment.yaml.   When Kubernetes deploys the container, it refers to the secret named mssql to get the value for the password. 
+Create a manifest (a YAML file) to describe the deployment. The following example describes a deployment, including a container based on the SQL Server container image.  Copy the preceding code into a new file, named sqldeployment.yaml.   When Kubernetes deploys the container, it refers to the secret named mssql to get the value for the password. 
 
 
 kubectl apply -f sqldeployment.yaml file
 	
 Verify the services are running. Run the following command:  kubectl get services  This command returns services that are running, as well as the internal and external IP addresses for the services. Note the external IP address for the mssql-deployment service. Use this IP address to connect to SQL Server. ￼ For more information about the status of the objects in the Kubernetes cluster, run: az aks browse --resource-group <MyResourceGroup> --name <MyKubernetesClustername>
 
-Connect to the SQL Server instance
+# # Connect to the SQL Server instance
 
 If you configured the container as described, you can connect with an application from outside the Azure virtual network. Use the sa account and the external IP address for the service. Use the password that you configured as the Kubernetes secret.
 You can use the following applications to connect to the SQL Server instance.
 		
-	   sqlcmd
-		To connect with sqlcmd, run the following command:sqlcmd -S <External IP Address> -U sa -P "MyC0m9l&xP@ssw0rd"
+connect with sqlcmd, run the following command:
+
+  sqlcmd -S <External IP Address> -U sa -P "MyC0m9l&xP@ssw0rd"
 		Replace the following values:
-		<External IP Address> with the IP address for the mssql-deployment service  yC0m9l&xP@ssw0rd with your password
+     <External IP Address> with the IP address for the mssql-deployment service  yC0m9l&xP@ssw0rd with your password
 		
-Verify failure and recovery
+# # Verify failure and recovery
 
 To verify failure and recovery, you can delete the pod. Do the following steps:
         
