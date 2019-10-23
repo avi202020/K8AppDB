@@ -61,12 +61,7 @@ helm install \
   --version v0.8.0 \
   jetstack/cert-manager
 For more information on cert-manager configuration, see the cert-manager project.
-Create a CA cluster issuer
-
-Before certificates can be issued, cert-manager requires an Issuer or ClusterIssuer resource. These Kubernetes resources are identical in functionality, however Issuer works in a single namespace, and ClusterIssuer works across all namespaces. For more information, see the cert-manager issuer documentation.
-Create a cluster issuer, such as cluster-issuer.yaml, using the following example manifest. Update the email address with a valid address from your organization:
-
-To create the issuer, use the kubectl apply -f cluster-issuer.yaml command.
+Create a CA cluster issuer To create the issuer, use the kubectl apply -f cluster-issuer.yaml command.
 
 $ kubectl apply -f cluster-issuer.yaml
 
@@ -97,18 +92,6 @@ Cert-manager has likely automatically created a certificate object for you using
 
 
 kubectl describe certificate tls-secret --namespace ingress-basic command.
-
-If the certificate was issued, you will see output similar to the following:
-
-
-Type    Reason          Age   From          Message
-----    ------          ----  ----          -------
-  Normal  CreateOrder     11m   cert-manager  Created new ACME order, attempting validation...
-  Normal  DomainVerified  10m   cert-manager  Domain "demo-aks-ingress.eastus.cloudapp.azure.com" verified with "http-01" validation
-  Normal  IssueCert       10m   cert-manager  Issuing certificate...
-  Normal  CertObtained    10m   cert-manager  Obtained certificate from ACME server
-  Normal  CertIssued      10m   cert-manager  Certificate issued successfully
-If you need to create an additional certificate resource, you can do so with the following example manifest. Update the dnsNames and domains to the DNS name you created in a previous step. If you use an internal-only ingress controller, specify the internal DNS name for your service.
 
 To create the certificate resource, use the kubectl apply -f certificates.yaml command.
 
